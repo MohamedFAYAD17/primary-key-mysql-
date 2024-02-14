@@ -1,0 +1,149 @@
+Microsoft Windows [Version 10.0.19045.3930]
+(c) Microsoft Corporation. All rights reserved.
+
+C:\Users\hp>mysql --version
+mysql  Ver 8.0.19 for Win64 on x86_64 (MySQL Community Server - GPL)
+
+C:\Users\hp>mysql -u root -p
+Enter password: ************
+ERROR 1045 (28000): Access denied for user 'root'@'localhost' (using password: YES)
+
+C:\Users\hp>mysql -u root -p
+Enter password: ***********
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 11
+Server version: 8.0.19 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2020, Oracle and/or its affiliates. All rights reserved.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> create database primarykey ;
+Query OK, 1 row affected (0.01 sec)
+
+mysql> use primarykey;
+Database changed
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| bdtest             |
+| centreformation    |
+| information_schema |
+| mohamedf           |
+| mydb               |
+| mysql              |
+| performance_schema |
+| primarykey         |
+| sakila             |
+| sys                |
+| test               |
+| txt                |
+| world              |
++--------------------+
+13 rows in set (0.00 sec)
+
+mysql> show tables ;
+Empty set (0.00 sec)
+
+mysql> create table person (
+    -> code int not null ,
+    -> name varchar(15) not null ,
+    -> birth_year int not null ,
+    -> primary key (code));
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> show databases ;
++--------------------+
+| Database           |
++--------------------+
+| bdtest             |
+| centreformation    |
+| information_schema |
+| mohamedf           |
+| mydb               |
+| mysql              |
+| performance_schema |
+| primarykey         |
+| sakila             |
+| sys                |
+| test               |
+| txt                |
+| world              |
++--------------------+
+13 rows in set (0.00 sec)
+
+mysql> show tables ;
++----------------------+
+| Tables_in_primarykey |
++----------------------+
+| person               |
++----------------------+
+1 row in set (0.00 sec)
+
+mysql> select * from person ;
+Empty set (0.01 sec)
+
+mysql> create table employe (
+    -> emp_id int not null ,
+    -> job varchar (20) not null ,
+    -> salary int ,
+    -> code int ,
+    -> primary key (emp_id),
+    -> foreign key (code) references person(code) );
+Query OK, 0 rows affected (0.08 sec)
+
+mysql> insert into person values
+    -> (1, 'jake', 2000),
+    -> (2, 'jack', 2002),
+    -> (3, 'ben', 2000),
+    -> (4, 'adam', 2004);
+Query OK, 4 rows affected (0.01 sec)
+Records: 4  Duplicates: 0  Warnings: 0
+
+mysql> insert into employe values
+    -> (11, 'developer', 5000 , 1),
+    -> (22, 'hr' , 4000, 2),
+    -> (33, 'designer', 2500, 3),
+    -> (44, 'marketer', 5500, 4);
+Query OK, 4 rows affected (0.01 sec)
+Records: 4  Duplicates: 0  Warnings: 0
+
+mysql> select * from employe ;
++--------+-----------+--------+------+
+| emp_id | job       | salary | code |
++--------+-----------+--------+------+
+|     11 | developer |   5000 |    1 |
+|     22 | hr        |   4000 |    2 |
+|     33 | designer  |   2500 |    3 |
+|     44 | marketer  |   5500 |    4 |
++--------+-----------+--------+------+
+4 rows in set (0.00 sec)
+
+mysql> select * from person ;
++------+------+------------+
+| code | name | birth_year |
++------+------+------------+
+|    1 | jake |       2000 |
+|    2 | jack |       2002 |
+|    3 | ben  |       2000 |
+|    4 | adam |       2004 |
++------+------+------------+
+4 rows in set (0.00 sec)
+
+mysql> select person.name , person.birth_year , employe.job , employe.salary from employe join person on person.code = employe.code ;
++------+------------+-----------+--------+
+| name | birth_year | job       | salary |
++------+------------+-----------+--------+
+| jake |       2000 | developer |   5000 |
+| jack |       2002 | hr        |   4000 |
+| ben  |       2000 | designer  |   2500 |
+| adam |       2004 | marketer  |   5500 |
++------+------------+-----------+--------+
+4 rows in set (0.00 sec)
+
+mysql>
